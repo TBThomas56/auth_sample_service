@@ -1,0 +1,12 @@
+dependencies:
+- name: argo-cd
+  repository: https://argoproj.github.io/argo-helm
+  version: 7.7.5
+- name: keycloak
+  repository: oci://registry-1.docker.io/cloudpirates
+  version: 0.21.10
+- name: postgres
+  repository: oci://registry-1.docker.io/cloudpirates
+  version: 0.19.5
+digest: sha256:2628d480d8ac85567ec92d1641790bef0673bdf5a1dc1b1d061211d2c598cdc5
+generated: "2026-06-10T15:08:27.019937965+01:00"

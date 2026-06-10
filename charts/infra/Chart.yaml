@@ -1,0 +1,17 @@
+apiVersion: v2
+name: Infrastructure
+description: ArgoCD and Postgres
+type: application
+
+version: 0.1.0
+dependencies:
+  - name: argo-cd
+    repository: https://argoproj.github.io/argo-helm
+    version: 7.7.5
+    condition: argo-cd.enabled
+  - name: keycloak
+    repository: oci://registry-1.docker.io/cloudpirates
+    version: 0.21.10
+  - name: postgres
+    repository: oci://registry-1.docker.io/cloudpirates
+    version: 0.19.5 
