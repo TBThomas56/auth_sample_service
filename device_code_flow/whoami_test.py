@@ -21,6 +21,15 @@ CLIENT_SECRET = os.environ.get("KC_CLIENT_SECRET", "FBASyxOyTjLqMOZppnx78NDwdB3U
 WHOAMI_URL = os.environ.get("WHOAMI_URL", "http://localhost:8000/whoami")
 
 
+def _parse_error(e: urllib.error.HTTPError):
+    raw = e.read().decode()
+    try:
+        body = json.loads(raw)
+    except json.JSONDecodeError:
+        body = raw or f"HTTP {e.code} {e.reason}"
+    raise RuntimeError(body) from e
+
+
 def _post_form(url, data: dict) -> dict:
     body = urllib.parse.urlencode(data).encode()
     req = urllib.request.Request(url, data=body)
@@ -28,7 +37,7 @@ def _post_form(url, data: dict) -> dict:
         with urllib.request.urlopen(req) as r:
             return json.loads(r.read().decode())
     except urllib.error.HTTPError as e:
-        raise RuntimeError(json.loads(e.read().decode())) from e
+        _parse_error(e)
 
 
 def _get_bearer(url, token: str) -> dict:
@@ -37,7 +46,7 @@ def _get_bearer(url, token: str) -> dict:
         with urllib.request.urlopen(req) as r:
             return json.loads(r.read().decode())
     except urllib.error.HTTPError as e:
-        raise RuntimeError(json.loads(e.read().decode())) from e
+        _parse_error(e)
 
 
 def client_credentials() -> str:
