@@ -21,6 +21,10 @@ postgres:
 keycloak:
   postgres:
     enabled: false
+  features:
+    enabled:
+      - token-exchange
+      - admin-fine-grained-authz:v1
   database:
     host: "infra-postgres"
     name: "keycloak"
